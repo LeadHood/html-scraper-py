@@ -1,0 +1,3 @@
+clearCache = false #if you want to clear the cached 
+cacheRefreshTime = 604800 #default is one week in seconds
+

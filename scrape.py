@@ -1,33 +1,76 @@
 # Idea: This is just the main program handling everyting
 # The cache stores the requested domains, and stores when they were getted last time
-# The data is the data that the interpreter will handle
+# The data is the data that the extractor will handle
+# Instead, the cache should store time = something and text = "html string"
 
 import requests
 import os
-import tomllib
+import time
 
-
+# My own imports
+import tomlUtils
 
 cacheDir: str = "./cache/"
 domainsFile: str = "./domains.toml"
+configFile: str = "./config.toml"
 
-print(readToml(domainsFile))
+configData = tomlUtils.readToml(configFile)
+domainsData = tomlUtils.readToml(domainsFile)
 
-#for url, directory in subdomains:
-    # Making the output more neat
+cacheRefreshTime = configData["cacheRefreshTime"]
+
+def clearCache():
+    for f in os.scandir(cacheDir):
+        if f.is_file():
+            os.remove(f)
+
+def handleDomainEntry(entry):
+    domain: str = entry["domain"]
+    #useCrawl: bool = entry["useCrawler"] -- later implementation in 2.0 ig
     #print("=" * 50)
-    #text = ""
-    # See if html is already cached!!
-    #if os.path.exists(cacheDirectory + url)
-   #     text
+    print("Handling: " + domain, end= "")
+    
+    cacheFilePath = cacheDir + domain.replace("/", "_") + ".toml"
+    if os.path.exists(cacheFilePath):
+        cacheData = tomlUtils.readToml(cacheFilePath)
+        if int(time.time() - cacheData["time"]) < cacheRefreshTime:
+            print("-- Already cached") 
+            return
+        print("-- Cached but need a refresh ", end= "")
         
-   # print("Getting" , url, " :")
-   # response = requests.get(url)
+    print("-- Requesting ", end= "")
+    response = requests.get(domain)
     
-   # if response.status_code != 200:
-   #     continue
+    if response.status_code != 200:
+        print("-- Request failed ")
+        return
 
-   # for line in response.text.splitlines():
-   #     if "r = " in line: 
-   #         print(line)
-    
+    tomlUtils.writeToml(
+        cacheFilePath, 
+        {
+            "time" : time.time(), 
+            "text" : response.text
+        }
+    ) 
+
+    print("-- Request succeeded and cached ")
+    return
+
+def loopThroughEntries():
+    for entry in domainsData["domains"]:
+        handleDomainEntry(entry)
+
+def configSetup():
+    # check if cache dir even exists:
+    if not os.path.exists(cacheDir):
+        os.makedirs(cacheDir)
+
+    if configData["clearCache"] == True:
+        print("Clearing cache...")
+        clearCache()
+
+    if configData["cacheRefreshTime"] > 0:
+        cacheRefreshTime = int(configData["cacheRefreshTime"])
+
+configSetup()
+loopThroughEntries()
