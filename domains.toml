@@ -1,0 +1,39 @@
+[[domains]]
+domain = "https://erich-friedman.github.io/packing/cirincir/"
+time = 0
+useCrawler = false
+
+[[domains]]
+domain = "https://erich-friedman.github.io/packing/triincir/"
+time = 0
+useCrawler = false
+
+[[domains]]
+domain = "https://erich-friedman.github.io/packing/squincir/"
+time = 0
+useCrawler = false
+
+[[domains]]
+domain = "https://erich-friedman.github.io/packing/penincir/"
+time = 0
+useCrawler = false
+
+[[domains]]
+domain = "https://erich-friedman.github.io/packing/octincir/"
+time = 0
+useCrawler = false
+
+[[domains]]
+domain = "https://erich-friedman.github.io/packing/tanincir/"
+time = 0
+useCrawler = false
+
+[[domains]]
+domain = "https://erich-friedman.github.io/packing/domincir/"
+time = 0
+useCrawler = false
+
+[[domains]]
+domain = "https://erich-friedman.github.io/packing/lincir/"
+time = 0
+useCrawler = false
