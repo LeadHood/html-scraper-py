@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 # Idea: This is just the main program handling everyting
 # The cache stores the requested domains, and stores when they were getted last time
 # The data is the data that the extractor will handle
