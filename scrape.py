@@ -8,14 +8,14 @@ import os
 import time
 
 # My own imports
-import tomlUtils
+import toml_utils
 
 cacheDir: str = "./cache/"
 domainsFile: str = "./domains.toml"
 configFile: str = "./config.toml"
 
-configData = tomlUtils.readToml(configFile)
-domainsData = tomlUtils.readToml(domainsFile)
+configData = toml_utils.readToml(configFile)
+domainsData = toml_utils.readToml(domainsFile)
 
 cacheRefreshTime = configData["cacheRefreshTime"]
 
@@ -32,7 +32,7 @@ def handleDomainEntry(entry):
     
     cacheFilePath = cacheDir + domain.replace("/", "_") + ".toml"
     if os.path.exists(cacheFilePath):
-        cacheData = tomlUtils.readToml(cacheFilePath)
+        cacheData = toml_utils.readToml(cacheFilePath)
         if int(time.time() - cacheData["time"]) < cacheRefreshTime:
             print("-- Already cached") 
             return
@@ -45,7 +45,7 @@ def handleDomainEntry(entry):
         print("-- Request failed ")
         return
 
-    tomlUtils.writeToml(
+    toml_utils.writeToml(
         cacheFilePath, 
         {
             "time" : time.time(), 

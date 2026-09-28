@@ -1,6 +1,6 @@
 # How to use
-Choose which sites you want to get html code for in domains.toml
-Choose whether to always clear the cache or not in config.toml
+Choose which sites you want to get html code for in domains.toml.
+Choose whether to always clear the cache or not in config.toml and the time before a cache can be refreshed
 
 Install requests and toml with pip.
 then run 
